@@ -23,12 +23,29 @@ function App() {
     setContacts(sortedContacts);
   };
 
+  const nameSort = () => {
+    const sortedNames = contacts.sort((a, b) =>
+      a.name.toUpperCase().localeCompare(b.name.toUpperCase())
+    );
+
+    setContacts([...sortedNames]);
+  };
+
+  const deleteContact = (contactId) => {
+    const filteredContacts = contacts.filter(
+      (contact) => contact.id !== contactId
+    );
+
+    setContacts(filteredContacts);
+  };
+
   return (
     <div className="App">
       <h1>Ironcarts</h1>
-      <div>
+      <div className="buttons">
         <button onClick={addContact}>Add random contact</button>
         <button onClick={popularitySort}>Sort by popularity</button>
+        <button onClick={nameSort}>Sort by name</button>
       </div>
       <table>
         <thead>
@@ -48,7 +65,6 @@ function App() {
                   <img
                     src={contact.pictureUrl}
                     alt=""
-                    className="table"
                     style={{ height: "250px", width: "auto" }}
                   />
                 </td>
@@ -56,6 +72,15 @@ function App() {
                 <td>{contact.popularity.toFixed(2)}</td>
                 <td>{contact.wonOscar && "🏆"}</td>
                 <td>{contact.wonEmmy && "🏆"}</td>
+                <td>
+                  <button
+                    onClick={() => {
+                      deleteContact(contact.id);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
             );
           })}
